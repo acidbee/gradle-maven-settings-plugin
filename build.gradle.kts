@@ -4,14 +4,23 @@ plugins {
     maven
     `maven-publish`
     id("com.gradle.plugin-publish") version "0.10.1"
+    id("org.ajoberstar.reckon") version "0.12.0"
 }
 
+// Configure semantic versioning
+// https://github.com/ajoberstar/reckon
+reckon {
+    scopeFromProp()
+    stageFromProp("dev", "rc", "final")
+}
+
+// Local publishing for testing
 publishing {
     publications {
         create<MavenPublication>("maven") {
             groupId = project.group as String?
             artifactId = "maven-settings-gitlab"
-            version = project.version as String?
+            version = "${project.version}"
 
             from(components["java"])
         }
@@ -42,11 +51,13 @@ dependencies {
     testImplementation("org.hamcrest:hamcrest-library:1.3")
 }
 
+// Java Configuration
 java {
     sourceCompatibility = JavaVersion.VERSION_1_6
     targetCompatibility = JavaVersion.VERSION_1_6
 }
 
+// Plugin Configuration
 pluginBundle {
     website = "https://github.com/acidbee/gradle-maven-settings-plugin"
     vcsUrl = "https://github.com/acidbee/gradle-maven-settings-plugin"

@@ -8,26 +8,30 @@ settings configuration to store encrypted repository authentication credentials.
 ## Usage
 This plugin is hosted on the [Gradle Plugin Portal](https://plugins.gradle.org/plugin/net.linguica.maven-settings).
 To use the plugin, add the following to your `build.gradle` file.
-    
-    plugins {
-      id 'co.coxes.maven-settings-gitlab' version '0.6.2'
-    }
+
+```kotlin
+plugins {
+  id("co.coxes.maven-settings-gitlab") version "0.6.2"
+}
+```
     
 For Gradle 2.0 or earlier you must add the following:
     
-    buildscript {
-        repositories {
-            maven {
-                url 'https://plugins.gradle.org/m2/'
-            }
-        }
-        
-        dependencies {
-            classpath 'co.coxes.gradle:maven-settings-gitlab-plugin:0.6.2'
-        }
-    }
+```groovy
+buildscript {
+   repositories {
+       maven {
+           url 'https://plugins.gradle.org/m2/'
+       }
+   }
+   
+   dependencies {
+       classpath 'co.coxes.gradle:maven-settings-gitlab-plugin:0.6.2'
+   }
+}
 
-    apply plugin: 'co.coxes.maven-settings-gitlab'
+apply plugin: 'co.coxes.maven-settings-gitlab'
+```
 
 ## Mirrors
 The plugin exposes Maven-like mirror capabilities. The plugin will properly register and enforce any 
@@ -42,12 +46,14 @@ The plugin will attempt to apply credentials located in `<server>` elements to a
 definitions in your build script. This is done by matching the `<id>` element in the `settings.xml` file to the `name`
 property of the repository definition.
 
-    repositories {
-        maven {
-            name = 'myRepo' // should match <id>myRepo</id> of appropriate <server> in settings.xml
-            url = 'https://intranet.foo.org/repo'
-        }
+```kotlin
+repositories {
+    maven {
+        name = "myRepo" // should match <id>myRepo</id> of appropriate <server> in settings.xml
+        url = "https://intranet.foo.org/repo"
     }
+}
+```
 
 Server credentials are used for mirrors as well. When mirrors are added the plugin will look for a `<server>` element 
 with the same `<id>` and the configured credentials are used and [decrypted](http://maven.apache.org/guides/mini/guide-encryption.html) 
@@ -57,14 +63,16 @@ if necessary.
 The plugin will also attempt to apply credentials to repositories configured using the 
 ['maven-publish'](https://docs.gradle.org/current/userguide/publishing_maven.html) plugin.
 
-    publishing {
-        repositories {
-            maven {
-                name = 'myRepo' // should match <id>myRepo</id> of appropriate <server> in settings.xml
-                url = 'https://intranet.foo.org/repo/repositories/releases'
-            }
+```kotlin
+publishing {
+    repositories {
+        maven {
+            name = "myRepo" // should match <id>myRepo</id> of appropriate <server> in settings.xml
+            url = "https://intranet.foo.org/repo/repositories/releases"
         }
     }
+}
+```
     
 
 ### Supported Types
